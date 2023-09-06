@@ -6,8 +6,9 @@ import (
 )
 
 type ErrorResponse struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
+	Success bool        `json:"success"`
+	Message string      `json:"message"`
+	Error   interface{} `json:"error"`
 }
 
 type SuccessResponse struct {
@@ -15,13 +16,14 @@ type SuccessResponse struct {
 	Data    interface{} `json:"data"`
 }
 
-func WriteErrorResponse(w http.ResponseWriter, statusCode int, message string) {
+func WriteErrorResponse(w http.ResponseWriter, statusCode int, message string, err error) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(statusCode)
 
 	errResponse := ErrorResponse{
 		Success: false,
 		Message: message,
+		Error:   err,
 	}
 
 	json.NewEncoder(w).Encode(errResponse)

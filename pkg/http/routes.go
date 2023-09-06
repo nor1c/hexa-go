@@ -11,15 +11,15 @@ import (
 func InitRoutes(r chi.Router) chi.Router {
 	// repos
 	ownerRepo := repo.NewOwnerRepository(db.DB)
-	// petRepo := r.NewPetRepository(db.DB)
+	petRepo := repo.NewPetRepository(db.DB)
 
 	// usecases
 	ownerUseCase := uc.NewOwnerUseCase(ownerRepo)
-	// petUseCase := u.NewPetUseCase(petRepo)
+	petUseCase := uc.NewPetUseCase(petRepo)
 
 	// handlers
 	NewOwnerHandler(ownerUseCase, r)
-	// NewPetHandler(petUseCase, r)
+	NewPetHandler(petUseCase, r)
 
 	return r
 }

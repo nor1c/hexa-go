@@ -45,12 +45,12 @@ func (h *OwnerHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 
 		select {
 		case <-ctx.Done():
-			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error())
+			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error(), err)
 		default:
 			if err == customerror.ErrOwnersEmpty {
-				response.WriteErrorResponse(w, http.StatusOK, err.Error())
+				response.WriteErrorResponse(w, http.StatusOK, err.Error(), err)
 			} else {
-				response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
+				response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error(), err)
 			}
 		}
 
@@ -66,7 +66,7 @@ func (h *OwnerHandler) GetOwner(w http.ResponseWriter, r *http.Request) {
 	// parse ID from URL params /{id}
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.WriteErrorResponse(w, http.StatusBadRequest, "Failed to parse Owner ID.")
+		response.WriteErrorResponse(w, http.StatusBadRequest, "Failed to parse Owner ID.", err)
 	}
 
 	// find owner
@@ -76,9 +76,9 @@ func (h *OwnerHandler) GetOwner(w http.ResponseWriter, r *http.Request) {
 
 		select {
 		case <-ctx.Done():
-			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error())
+			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error(), err)
 		default:
-			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
+			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error(), err)
 		}
 
 		return
@@ -95,7 +95,7 @@ func (h *OwnerHandler) NewOwner(w http.ResponseWriter, r *http.Request) {
 	// parse user request body and map it to `owner` struct
 	err := json.NewDecoder(r.Body).Decode(&reqBody)
 	if err != nil {
-		response.WriteErrorResponse(w, http.StatusBadRequest, customerror.ErrInvalidRequestBody.Error())
+		response.WriteErrorResponse(w, http.StatusBadRequest, customerror.ErrInvalidRequestBody.Error(), err)
 		return
 	}
 
@@ -105,9 +105,9 @@ func (h *OwnerHandler) NewOwner(w http.ResponseWriter, r *http.Request) {
 
 		select {
 		case <-ctx.Done():
-			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error())
+			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error(), err)
 		default:
-			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
+			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error(), err)
 		}
 
 		return
@@ -123,13 +123,13 @@ func (h *OwnerHandler) UpdateOwner(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error())
+		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error(), err)
 	}
 
 	// parse request body and map it to `owner` struct
 	err = json.NewDecoder(r.Body).Decode(&reqBody)
 	if err != nil {
-		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error())
+		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error(), err)
 		return
 	}
 
@@ -137,9 +137,9 @@ func (h *OwnerHandler) UpdateOwner(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		select {
 		case <-ctx.Done():
-			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error())
+			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error(), err)
 		default:
-			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
+			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error(), err)
 		}
 
 		return
@@ -153,7 +153,7 @@ func (h *OwnerHandler) DeleteOwner(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error())
+		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error(), err)
 		return
 	}
 
@@ -161,9 +161,9 @@ func (h *OwnerHandler) DeleteOwner(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		select {
 		case <-ctx.Done():
-			response.WriteErrorResponse(w, http.StatusRequestTimeout, err.Error())
+			response.WriteErrorResponse(w, http.StatusRequestTimeout, err.Error(), err)
 		default:
-			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
+			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error(), err)
 		}
 
 		return
@@ -177,7 +177,7 @@ func (h *OwnerHandler) DeactivateOwner(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error())
+		response.WriteErrorResponse(w, http.StatusBadRequest, err.Error(), err)
 		return
 	}
 
@@ -185,9 +185,9 @@ func (h *OwnerHandler) DeactivateOwner(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		select {
 		case <-ctx.Done():
-			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error())
+			response.WriteErrorResponse(w, http.StatusRequestTimeout, customerror.ErrTimedOut.Error(), err)
 		default:
-			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
+			response.WriteErrorResponse(w, http.StatusInternalServerError, err.Error(), err)
 		}
 
 		return

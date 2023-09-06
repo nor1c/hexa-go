@@ -21,7 +21,7 @@ func NewOwnerRepository(db *sqlx.DB) *ownerRepository {
 
 func (r *ownerRepository) FindAllOwners(ctx context.Context) ([]*domain.Owner, error) {
 	// prepare query
-	stmt, err := r.db.PrepareContext(ctx, "SELECT * FROM owners")
+	stmt, err := r.db.PreparexContext(ctx, "SELECT * FROM owners")
 	if err != nil {
 		return nil, err
 	}
